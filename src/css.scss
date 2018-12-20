@@ -1,0 +1,181 @@
+$labelSize:32px;
+$padding:10px;
+
+.dcTimePicker {
+    font-family: 微软雅黑, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    &,
+    * {
+        box-sizing: border-box;
+    }
+
+
+    color: #333;
+    position: relative;
+    user-select: none;
+    display: inline-block;
+
+    .dcTimePicker-input {
+        border: 1px solid rgb(238, 238, 238);
+        padding: 0px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        line-height: 2.45em;
+        vertical-align: middle;
+
+        span {
+            opacity: 0.3;
+        }
+    }
+
+
+    .dcTimePicker-timePicker {
+        position: absolute;
+        top: 100%;
+        // left: 0px;
+        margin-top: 5px;
+        display: block;
+        z-index: 9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        overflow: hidden;
+        padding-bottom: 10px;
+    }
+
+
+
+    .dcTimePicker-calendarBar {
+        text-align: center;
+        padding: 0px 10px;
+
+        .enterBt,
+        .cancelBt {
+            display: inline-block;
+            font-size: 14px;
+            line-height: 28px;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 0px 8px;
+            margin: 0px 10px;
+        }
+
+        .enterBt {
+            background-color: #559FF0;
+            color: #fff;
+        }
+
+        .cancelBt {
+            background-color: #eee;
+            // color: #fff;
+        }
+    }
+
+    .dcTimePicker-calendar {
+        width: $labelSize * 7+$padding * 2+1px * 2;
+        padding: $padding;
+        // border: 1px solid #ddd;
+        background-color: #fff;
+
+        .calendar-nav {
+            font-size: 16px;
+            overflow: hidden;
+            text-align: center;
+
+            div {
+                display: inline-block;
+                line-height: $labelSize;
+
+                &[isRange=true] {
+                    // font-size: 13px;
+                }
+            }
+
+            .calendar-nav-text {
+                cursor: pointer;
+                padding: 0 5px;
+
+                &:hover {
+                    background-color: #eee;
+                }
+            }
+
+            .pre,
+            .next {
+                width: $labelSize - 4px;
+                height: $labelSize - 4px;
+                line-height: $labelSize - 4px;
+                cursor: pointer;
+            }
+
+
+            .pre {
+                float: left;
+
+            }
+
+            .next {
+                float: right;
+
+            }
+        }
+
+        .calendar {
+            text-align: center;
+
+            .calendar-header {
+                span {
+                    width: $labelSize;
+                    height: $labelSize;
+                    line-height: $labelSize;
+                    display: inline-block;
+                    font-size: 16px;
+                }
+            }
+
+            .calendar-body {
+
+
+                div {
+                    display: inline-block;
+                    font-size: 13px;
+                    color: #777C7C;
+
+                    span {
+                        border: 1px solid rgba(255, 255, 255, 1);
+                        width: $labelSize;
+                        height: $labelSize;
+                        line-height: $labelSize;
+                        display: inline-block;
+                        background-color: #eee;
+                        cursor: pointer;
+                    }
+
+                    &:hover {
+                        span {
+                            background-color: #559FF0;
+                            color: #fff;
+                        }
+
+                    }
+
+                    &[disabled=true] {
+                        opacity: 0.3;
+                    }
+
+
+                    &[active=true] {
+                        span {
+                            background-color: #559FF0;
+                            color: #fff;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+
+}
