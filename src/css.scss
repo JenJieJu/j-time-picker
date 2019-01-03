@@ -1,7 +1,7 @@
 $labelSize:32px;
 $padding:10px;
 
-.dcTimePicker {
+.jTimePicker {
     font-family: 微软雅黑, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     &,
@@ -15,7 +15,7 @@ $padding:10px;
     user-select: none;
     display: inline-block;
 
-    .dcTimePicker-input {
+    .jTimePicker-input {
         border: 1px solid rgb(238, 238, 238);
         padding: 0px 8px;
         border-radius: 5px;
@@ -29,7 +29,7 @@ $padding:10px;
     }
 
 
-    .dcTimePicker-timePicker {
+    .jTimePicker-timePicker {
         position: absolute;
         top: 100%;
         // left: 0px;
@@ -46,7 +46,7 @@ $padding:10px;
 
 
 
-    .dcTimePicker-calendarBar {
+    .jTimePicker-calendarBar {
         text-align: center;
         padding: 0px 10px;
 
@@ -72,20 +72,26 @@ $padding:10px;
         }
     }
 
-    .dcTimePicker-calendar {
+
+    .jTimePicker-calendarNavBox {
+        padding: $padding $padding 0 $padding;
         width: $labelSize * 7+$padding * 2+1px * 2;
-        padding: $padding;
-        // border: 1px solid #ddd;
-        background-color: #fff;
 
         .calendar-nav {
             font-size: 16px;
             overflow: hidden;
             text-align: center;
 
+
+            .input-box {
+                width: 162px;
+                text-align: center;
+            }
+
             div {
                 display: inline-block;
                 line-height: $labelSize;
+                vertical-align: unset;
 
                 &[isRange=true] {
                     // font-size: 13px;
@@ -120,6 +126,15 @@ $padding:10px;
 
             }
         }
+    }
+
+    .jTimePicker-calendar {
+        width: $labelSize * 7+$padding * 2+1px * 2;
+        padding: 0 $padding $padding $padding;
+        // border: 1px solid #ddd;
+        background-color: #fff;
+
+
 
         .calendar {
             text-align: center;
@@ -135,15 +150,16 @@ $padding:10px;
             }
 
             .calendar-body {
-
+                line-height: 0px;
 
                 div {
                     display: inline-block;
                     font-size: 13px;
                     color: #777C7C;
+                    // line-height: 0px;
 
                     span {
-                        border: 1px solid rgba(255, 255, 255, 1);
+                        // border: 0.5px solid #fff;
                         width: $labelSize;
                         height: $labelSize;
                         line-height: $labelSize;

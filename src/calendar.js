@@ -1,6 +1,6 @@
 import './css.scss';
 import { createElement, selectorElement, getMonthDetail, weeks, getNextDate, watch, getDatesRange, setDateTime } from './tools.js'
-import dateInput from './dateInput.js'
+
 
 
 export default class calendar {
@@ -63,18 +63,19 @@ export default class calendar {
 
         watch(this.data, 'value', v => {
             this.data.calendarDate = v;
-            // 首次加载不触发onChange
-            if (this._isFirstInit) {
-                return
-            }
-            setTimeout(() => {
-                this.onChange(v, this.data.startDate, this.data.endDate);
-            }, 10);
 
         });
 
         watch(this.data, 'calendarDate', v => {
             this.renderAll(v);
+            // 首次加载不触发onChange
+            if (this._isFirstInit) {
+                return
+            }
+
+            setTimeout(() => {
+                this.onChange(v, this.data.startDate, this.data.endDate);
+            }, 10);
         });
 
         watch(this.data, 'endDate', v => {
@@ -139,9 +140,11 @@ export default class calendar {
         if (this._contains) {
             this._contains.remove();
         }
+        if (!date) {
+            return
+        }
         this._calendarData = getMonthDetail(date);
         const contains = this._contains = this.renderContains(this._timePickerNode);
-        const calendarNav = this.renderNav(contains);
         const calendarBar = this.renderCalendarBar(contains);
         const calendar = this.renderCalendar(contains);
     }
@@ -158,107 +161,9 @@ export default class calendar {
          * @type {[node]}
          */
         const contains = createElement('div');
-        contains.className = 'dcTimePicker-calendar contains';
+        contains.className = 'jTimePicker-calendar contains';
 
         return timePickerNode.appendChild(contains);
-    }
-    /**
-     * 渲染日历导航栏
-     */
-    renderNav(contains) {
-
-        if (this._calendarNav) {
-            this._calendarNav.remove();
-        }
-
-        const calendarNav = this._calendarNav = createElement('div');
-        const preBt = createElement('div');
-        const nextBt = createElement('div');
-        const content = createElement('div');
-        const input = createElement('div');
-        const text = createElement('div');
-
-        function createLine(dom) {
-            const line = createElement('div');
-            line.innerHTML = `&nbsp;-&nbsp;`;
-            dom.appendChild(line);
-        }
-
-
-        content.setAttribute('isRange', this.isRange);
-
-        preBt.className = 'pre';
-        nextBt.className = 'next';
-        calendarNav.className = 'calendar-nav';
-        text.className = 'calendar-nav-text';
-        input.className = 'input-box';
-
-        input.style.display = 'none';
-
-        preBt.innerHTML = '<';
-        nextBt.innerHTML = '>';
-        text.innerHTML = this.data.calendarDate.format('yyyy年MM月');
-
-
-        const yearInput = new dateInput(input, {
-            lenght: 4,
-            onPass(v) {
-                monthInput.focus(v)
-            }
-        });
-
-        createLine(input);
-
-        const monthInput = new dateInput(input, {
-            lenght: 2,
-            onPass(v) {
-                dayInput.focus(v);
-            },
-            onDelete() {
-                yearInput.delete();
-            }
-        });
-
-
-        createLine(input);
-
-        const dayInput = new dateInput(input, {
-            lenght: 2,
-            onPass(v) {
-                console.log(yearInput, monthInput, dayInput);
-            },
-            onDelete() {
-                monthInput.delete();
-            },
-            onEnter() {
-                console.log(yearInput.value + '' + monthInput.value + dayInput.value)
-            }
-        });
-
-
-        calendarNav.appendChild(preBt)
-        calendarNav.appendChild(content)
-        calendarNav.appendChild(nextBt)
-        content.appendChild(input);
-        content.appendChild(text);
-
-
-        content.addEventListener('click', function() {
-            // input.style.display = 'block';
-            // yearInput.focus();
-            // text.style.display = 'none';
-        })
-
-
-        preBt.addEventListener('click', function() {
-            this.changeMounth('pre');
-        }.bind(this))
-
-        nextBt.addEventListener('click', function() {
-            this.changeMounth('next');
-        }.bind(this))
-
-        return contains.appendChild(calendarNav);
     }
 
 

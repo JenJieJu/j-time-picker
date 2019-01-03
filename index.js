@@ -1,4 +1,4 @@
 import './dist';
 
 
-export default window.dcTimePicker;
+export default window.jTimePicker;

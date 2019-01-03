@@ -198,3 +198,20 @@ export const getMonthDetail = (primalDate) => {
     detail.daysList = daysList;
     return detail
 }
+
+
+export const elementOutClick = (element, cb = Function) => {
+    document.body.addEventListener('click', (e) => {
+
+        let isClickThis = false;
+        e.path.map(i => {
+            if (i == element) {
+                isClickThis = true;
+            }
+        })
+        if (!isClickThis) {
+            cb()
+        }
+
+    })
+}

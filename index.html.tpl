@@ -51,7 +51,7 @@
     (function() {
 
 
-        var timePicker = new window.dcTimePicker('#time', {
+        var timePicker = new window.jTimePicker('#time', {
             defaultValue: new Date('2018-10-01'),
             defaultValues: [new Date('2018-10-01'), new Date()],
             onChange: function(v) {
@@ -61,7 +61,7 @@
             isRange: true
         });
 
-        var timePicker2 = new window.dcTimePicker('#time2', {
+        var timePicker2 = new window.jTimePicker('#time2', {
             defaultValue: new Date('2018-10-01'),
             defaultValues: [new Date('2018-10-01'), new Date()],
             onChange: function(v) {

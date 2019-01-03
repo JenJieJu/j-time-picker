@@ -3,14 +3,14 @@ import numberInput from './numberInput.js'
 
 
 export default class createInput {
-    constructor(dom, { onPass = Function, lenght = 1, onDelete = Function, onEnter = Function } = {}) {
+    constructor(dom, { onPass = Function, lenght = 1, onDelete = Function, onEnter = Function, onChange = Function, onBlur = Function } = {}) {
         const box = createElement('div');
 
         const input = createElement('div');
 
         input.style.border = '1px solid #eee';
         input.style.lineHeight = '22px';
-        input.style.padding = '0px 4px';
+        input.style.padding = '0px 2px';
         input.style.borderRadius = '5px';
 
 
@@ -24,9 +24,11 @@ export default class createInput {
                     if (nextInput) {
                         nextInput.focus(v)
                     } else {
-                        console.log(v)
                         onPass(v);
                     }
+
+                    onChange();
+
                 }.bind(i),
                 onDelete: function(v) {
 
@@ -38,10 +40,17 @@ export default class createInput {
                         onDelete()
                     }
 
+                    onChange();
+
                 }.bind(i),
                 onEnter: function(v) {
                     onEnter(v);
                 }.bind(i),
+                onBlur: function(v) {
+                    // ipt.focus(v)
+                    let nextInput = inputs[this];
+                    // onBlur && onBlur(nextInput);
+                }.bind(i)
             });
 
             ipt._input.onclick = (e) => {

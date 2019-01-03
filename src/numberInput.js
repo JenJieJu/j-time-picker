@@ -2,7 +2,7 @@ import { createElement } from './tools.js'
 const NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 export default class createInput {
-    constructor(dom, { onEnter = Function, onChange = Function, onPass = Function, onDelete = Function, onArrow = Function } = {}) {
+    constructor(dom, { onEnter = Function, onChange = Function, onPass = Function, onDelete = Function, onArrow = Function, onBlur = Function } = {}) {
         this._box = dom;
 
         const input = this._input = createElement('input');
@@ -17,6 +17,7 @@ export default class createInput {
         input.style.border = '0px';
         input.style.padding = '0px';
         input.style.textAlign = 'center';
+        input.style.verticalAlign = 'text-bottom';
 
 
         const enter = e => {
@@ -31,12 +32,10 @@ export default class createInput {
             if (NUMBERS.indexOf(e.key) > -1) {
                 let v = e.key - 0;
 
-                if (this.value !== undefined && this.value !== '') {
-                    onPass(v);
-                    return false
-                }
 
                 e.target.value = this.value = v;
+                onPass();
+
             }
             if (e.key == 'Backspace') {
                 if (!this.value) {
@@ -47,7 +46,7 @@ export default class createInput {
             }
 
             if (e.key == 'ArrowLeft' || e.key == 'ArrowRight') {
-                // onArrow(e.key);
+                onArrow({ ArrowLeft: 'left', ArrowRight: 'right' } [e.key]);
                 return true;
             }
 
@@ -76,6 +75,10 @@ export default class createInput {
             input.value = this.value = '';
 
         }
+
+        input.addEventListener('blur', function() {
+            onBlur()
+        })
 
         dom.appendChild(input);
         return this
