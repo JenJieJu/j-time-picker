@@ -9,9 +9,10 @@ if (!global || !global._babelPolyfill) {
 
 
 import './css.scss';
-import { createElement, selectorElement, getDayDetail, watch, elementOutClick, setDateTime } from './tools.js'
+import { createElement, selectorElement, getDayDetail, watch, elementOutClick, setDateTime, getDateByDays, getDaysOfMonth } from './tools.js'
 import calendar from './calendar.js'
 import dateInput from './dateInput.js'
+import renderTreeHtml from './renderTreeHtml.js'
 
 
 export default window.jTimePicker = class jTimePicker {
@@ -30,14 +31,19 @@ export default window.jTimePicker = class jTimePicker {
         this.isRange = isRange;
 
         const dom = selectorElement(selector);
+        const parentDom = dom.parentNode;
         const input = createElement('div');
         const timePicker = createElement('div');
+
+        const assistBar = createElement('div');
+        const calendarDiv = createElement('div');
+        const calendarNavBox = createElement('div');
         const calendarBox = createElement('div');
+
         const calendarBar = createElement('div');
         const enterBt = createElement('div');
         const cancelBt = createElement('div');
-        const parentDom = dom.parentNode;
-        const calendarNavBox = createElement('div');
+
 
 
         if ((parentDom.offsetLeft + parentDom.offsetWidth) - (dom.offsetLeft + dom.offsetWidth) < 300) {
@@ -52,12 +58,16 @@ export default window.jTimePicker = class jTimePicker {
 
         dom.className = `jTimePicker ${dom.className}`;
         input.className = 'jTimePicker-input';
-        timePicker.className = 'jTimePicker-timePicker'
+        timePicker.className = 'jTimePicker-timePicker';
+        calendarDiv.className = 'jTimePicker-calendarDiv';
+        calendarNavBox.className = 'jTimePicker-calendarNavBox'
         calendarBox.className = 'jTimePicker-calendarBox';
         calendarBar.className = 'jTimePicker-calendarBar'
         enterBt.className = 'enterBt'
         cancelBt.className = 'cancelBt'
-        calendarNavBox.className = 'jTimePicker-calendarNavBox'
+
+        assistBar.className = 'jTimePicker-assistBar';
+
 
         // 导航
         const nav = this.renderNav(calendarNavBox);
@@ -137,8 +147,17 @@ export default window.jTimePicker = class jTimePicker {
         calendarBar.appendChild(enterBt);
         calendarBar.appendChild(cancelBt);
 
-        timePicker.appendChild(calendarNavBox);
-        timePicker.appendChild(calendarBox);
+        calendarDiv.appendChild(calendarNavBox);
+        calendarDiv.appendChild(calendarBox);
+
+        timePicker.appendChild(calendarDiv);
+
+
+        if (isRange) {
+            this.renderAssistBar(assistBar);
+            timePicker.appendChild(assistBar);
+        }
+
         timePicker.appendChild(calendarBar);
 
         dom.appendChild(input);
@@ -149,6 +168,165 @@ export default window.jTimePicker = class jTimePicker {
         return this;
 
     }
+
+    renderAssistBar(contains) {
+        if (this._assistBar) {
+            this._assistBar.remove();
+        }
+        let self = this;
+
+        function setRangeDate(startDate, endDate, isEnd) {
+
+            startDate = setDateTime(startDate);
+            endDate = setDateTime(endDate, '23:59:59');
+
+            self.calendar.data.startDate = self.calendar.data.endDate = self.calendar.data.value = '';
+
+            self.calendar.data.startDate = startDate;
+            self.calendar.data.endDate = endDate;
+
+            self.calendar.data.value = isEnd ? endDate : startDate;
+        }
+
+
+        renderTreeHtml(contains, [{
+            html: '<div class="assistBar-content"></div>',
+            child: [{
+                html: '<h4>最近</h4>',
+            }, {
+                html: '<div class="itemBox"></div>',
+                child: [{
+                    html: '<div class="cancelBt">一周</div>',
+                    events: [{
+                        type: 'click',
+                        event() {
+                            let nowDate = new Date();
+                            let startDate = getDateByDays(nowDate, -(7 - 1));
+
+                            setRangeDate(startDate, nowDate)
+                        }
+                    }]
+                }]
+            }, {
+                html: '<div class="itemBox"></div>',
+                child: [{
+                    html: '<div class="cancelBt">一个月</div>',
+                    events: [{
+                        type: 'click',
+                        event() {
+                            let nowDate = new Date();
+
+                            let days = getDaysOfMonth(nowDate);
+
+                            let startDate = getDateByDays(nowDate, -(days - 1));
+
+                            setRangeDate(startDate, nowDate)
+                        }
+                    }]
+                }]
+            }, {
+                html: '<div class="itemBox"></div>',
+                child: [{
+                    html: '<div class="cancelBt">三个月</div>',
+                    events: [{
+                        type: 'click',
+                        event() {
+                            let nowDate = new Date();
+                            let days;
+                            let startDate = new Date();
+                            for (var i = 0; i < 3; i++) {
+                                days = getDaysOfMonth(startDate);
+                                startDate = getDateByDays(startDate, -(days - 1));
+                            };
+                            setRangeDate(startDate, nowDate);
+                        }
+                    }]
+                }]
+            }, {
+                html: '<div class="itemBox"></div>',
+                child: [{
+                    html: '<div class="cancelBt">一年</div>',
+                    events: [{
+                        type: 'click',
+                        event() {
+                            let nowDate = new Date();
+
+                            let startDate = getDateByDays(nowDate, -(365 - 1));
+
+                            setRangeDate(startDate, nowDate)
+                        }
+                    }]
+                }]
+            }, {
+                html: '<h4>接下来</h4>',
+            }, {
+                html: '<div class="itemBox"></div>',
+                child: [{
+                    html: '<div class="cancelBt">一周</div>',
+                    events: [{
+                        type: 'click',
+                        event() {
+                            let nowDate = new Date();
+                            let startDate = getDateByDays(nowDate, (7 - 1));
+
+                            setRangeDate(nowDate, startDate, true)
+                        }
+                    }]
+                }]
+            }, {
+                html: '<div class="itemBox"></div>',
+                child: [{
+                    html: '<div class="cancelBt">一个月</div>',
+                    events: [{
+                        type: 'click',
+                        event() {
+                            let nowDate = new Date();
+
+                            let days = getDaysOfMonth(nowDate);
+
+                            let startDate = getDateByDays(nowDate, (days - 1));
+
+                            setRangeDate(nowDate, startDate, true)
+                        }
+                    }]
+                }]
+            }, {
+                html: '<div class="itemBox"></div>',
+                child: [{
+                    html: '<div class="cancelBt">三个月</div>',
+                    events: [{
+                        type: 'click',
+                        event() {
+                            let nowDate = new Date();
+                            let days;
+                            let startDate = new Date();
+                            for (var i = 0; i < 3; i++) {
+                                days = getDaysOfMonth(startDate);
+                                startDate = getDateByDays(startDate, (days - 1));
+                            };
+                            setRangeDate(nowDate, startDate, true);
+                        }
+                    }]
+                }]
+            }, {
+                html: '<div class="itemBox"></div>',
+                child: [{
+                    html: '<div class="cancelBt">一年</div>',
+                    events: [{
+                        type: 'click',
+                        event() {
+                            let nowDate = new Date();
+
+                            let startDate = getDateByDays(nowDate, (365 - 1));
+
+                            setRangeDate(nowDate, startDate, true)
+                        }
+                    }]
+                }]
+            }]
+        }]);
+    }
+
     /**
      * 渲染日历导航栏
      */

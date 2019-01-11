@@ -80,6 +80,14 @@ export const getNextDate = (date, i) => {
     return d;
 }
 
+export const getDateByDays = (date, days) => {
+    let d = new Date(date);
+    let day = d.getDate();
+
+    d.setDate(day + days);
+    return d;
+}
+
 /**
  * [计算本月包含多少天]
  * @param  {[Date]} primalDate [日期]
@@ -214,4 +222,16 @@ export const elementOutClick = (element, cb = Function) => {
         }
 
     })
+}
+
+/**
+ * 通过html创建元素
+ * @param  {string} htmlString html
+ * @return {dom}            元素
+ */
+export const createElementFromHTML = (htmlString) => {
+    var div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+
+    return div.firstChild;
 }

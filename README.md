@@ -1,6 +1,6 @@
 # j-time-picker
 
-
+### <a href="//jenjieju.github.io/pc/">DEMO</a>
 
 ### Installing
 
@@ -26,7 +26,7 @@
         onChange: function(v) {
             console.log('onChange', timePicker)
         },
-        isRange: true //是否时间段选择
+        isRange: true //是否能选择时间区间
     });
     </script>
 ```
@@ -37,4 +37,6 @@
 0.0.9 fix:bug
 0.0.12 link github
 0.0.13 add:输入具体年月
+0.0.14 add:demo
+0.0.15 add:时间区间的模式下，可快速选择最近或接下来的时间区域
 ```
