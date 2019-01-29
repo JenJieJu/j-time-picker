@@ -122,7 +122,7 @@ export default window.jTimePicker = class jTimePicker {
         enterBt.addEventListener('click', () => {
             setValue(myCalendar.data.values, myCalendar.data.value);
             this.data = myCalendar.data;
-            console.log(this.data);
+            // console.log(this.data);
             this.isShow = false;
             timePicker.style.display = 'none';
             onChange && onChange(myCalendar.data.value);

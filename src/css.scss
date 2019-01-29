@@ -68,7 +68,6 @@ $padding:10px;
     .jTimePicker-timePicker {
         position: absolute;
         top: 100%;
-        // left: 0px;
         margin-top: 5px;
         display: block;
         z-index: 9;
@@ -112,7 +111,6 @@ $padding:10px;
 
     .cancelBt {
         background-color: #eee;
-        // color: #fff;
     }
 
 
@@ -137,7 +135,6 @@ $padding:10px;
                 vertical-align: unset;
 
                 &[isRange=true] {
-                    // font-size: 13px;
                 }
             }
 
@@ -174,7 +171,6 @@ $padding:10px;
     .jTimePicker-calendar {
         width: $labelSize * 7+$padding * 2+1px * 2;
         padding: 0 $padding $padding $padding;
-        // border: 1px solid #ddd;
         background-color: #fff;
 
 
@@ -199,10 +195,8 @@ $padding:10px;
                     display: inline-block;
                     font-size: 13px;
                     color: #777C7C;
-                    // line-height: 0px;
 
                     span {
-                        // border: 0.5px solid #fff;
                         width: $labelSize;
                         height: $labelSize;
                         line-height: $labelSize;
