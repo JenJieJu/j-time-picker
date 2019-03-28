@@ -72,7 +72,7 @@ export default window.jTimePicker = class jTimePicker {
         // 导航
         const nav = this.renderNav(calendarNavBox);
 
-
+        
 
         const myCalendar = new calendar(calendarBox, {
             defaultValue,

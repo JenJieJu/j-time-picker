@@ -50,7 +50,7 @@
     <div><span id="value2"></span></div>
     <script type="text/javascript">
     (function() {
-
+console.log(new Date('2018-10-01'))
         var timePicker = new window.jTimePicker('#time', {
             defaultValue: new Date('2018-10-01'),
             defaultValues: [new Date('2018-10-01'), new Date()],

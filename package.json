@@ -1,6 +1,6 @@
 {
   "name": "j-time-picker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "时间选择器",
   "main": "j-time-picker",
   "scripts": {
